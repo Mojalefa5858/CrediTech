@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - LesothoPrime Loans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    :root {
+        --primary: #00ff87;
+        --secondary: #60efff;
+        --dark: #0f0c29;
+        --accent: #ff6b6b;
+        --space: #1a1a2e;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background: radial-gradient(circle at top right, var(--dark), #302b63, #24243e);
+        color: white;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    .main-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(15px);
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 8%;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 15px rgba(96, 239, 255, 0.3));
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    .nav-link {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .auth-btn {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: var(--dark);
+        padding: 0.8rem 2rem;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+    }
+
+    .signup-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10rem 8% 6rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .signup-container {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 2rem;
+        padding: 3rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        max-width: 800px;
+        width: 100%;
+        animation: formEntrance 0.6s ease forwards;
+    }
+
+    @keyframes formEntrance {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .form-title {
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: var(--primary);
+        font-weight: 500;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+        border-color: var(--secondary);
+        box-shadow: 0 0 15px rgba(96, 239, 255, 0.2);
+    }
+
+    .date-wrapper {
+        position: relative;
+    }
+
+    .calendar-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary);
+        pointer-events: none;
+    }
+
+    .custom-select {
+        appearance: none;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 1rem;
+        color: white;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .file-upload {
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        padding: 2rem;
+        text-align: center;
+        border-radius: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .file-upload:hover {
+        border-color: var(--primary);
+        background: rgba(0, 255, 135, 0.05);
+    }
+
+    .image-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary);
+        margin: 1rem auto;
+        display: none;
+    }
+
+    .password-feedback {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .valid {
+        color: var(--primary) !important;
+    }
+
+    .invalid {
+        color: var(--accent) !important;
+    }
+
+    .terms {
+        text-align: center;
+        margin: 2rem 0;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .terms a {
+        color: var(--secondary);
+        text-decoration: none;
+    }
+
+    .gradient-blob {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.1;
+        z-index: 1;
+        animation: float 20s infinite;
+    }
+
+    .blob-1 { top: -20%; left: -10%; animation-delay: 0s; }
+    .blob-2 { bottom: -30%; right: -15%; animation-delay: 5s; }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(100px, -50px) scale(1.1); }
+        50% { transform: translate(-50px, 50px) scale(0.9); }
+        75% { transform: translate(-100px, -100px) scale(1.05); }
+    }
+
+    @media (max-width: 768px) {
+        .form-grid { grid-template-columns: 1fr; }
+        .signup-container { padding: 2rem; margin: 1rem; }
+        .form-title { font-size: 2rem; }
+    }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">CrediTech</div>
+            <div class="nav-links">
+                <a href="{%url 'welcome'%}" class="nav-link">Home</a>
+                <a href="{% url 'signin'%}" class="auth-btn">Sign In</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="signup-section">
+        <div class="gradient-blob blob-1"></div>
+        <div class="gradient-blob blob-2"></div>
+        
+        <div class="signup-container">
+            <h2 class="form-title">Create Account</h2>
+            <form id="signupForm" method="post" enctype="multipart/form-data" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <!-- Personal Information -->
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-input" name="first_name" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-input" name="last_name" placeholder="Doe" required>
+                    </div>
+    
+                    <!-- Email & Password -->
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" name="email" placeholder="example@domain.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                        <div class="date-wrapper">
+                            <input type="date" class="form-input" name="date_of_birth" required>
+                            <i class="fas fa-calendar-alt calendar-icon"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Monthly Income</label>
+                        <input type="number" class="form-input" name="monthly_income" placeholder="M" required>
+                    </div>
+    
+                    <!-- Password Section -->
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="password" name="password" placeholder="••••••••" required>
+                        <div class="password-feedback" id="passwordStrength"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" class="form-input" id="confirmPassword" name="confirm_password" placeholder="••••••••" required>
+                        <div class="password-feedback" id="passwordMatch"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Lesotho Phone Number</label>
+                        <input type="tel" 
+                               class="form-input" 
+                               name="phone_number" 
+                               placeholder="+26650123456"
+                               pattern="^\+266[568]\d{7}$"
+                               title="Lesotho format: +266 followed by 8 digits starting with 5, 6, or 8"
+                               required>
+                        <small class="form-text">Format: +266 followed by 8 digits (e.g. +26650123456)</small>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label class="form-label">Place of Work</label>
+                        <input type="text" class="form-input" name="place_of_work" placeholder="Company Name" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="form-label">Physical Address</label>
+                        <input type="text" class="form-input" name="physical_address" placeholder="Home Address" required>
+                    </div>
+    
+                    <!-- ID & Photo Upload -->
+                    <div class="form-group">
+                        <label class="form-label">National ID Number</label>
+                        <input type="text" class="form-input" name="national_id_number" pattern="[0-9]{9}" title="9-digit ID number" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload ID Photo</label>
+                        <div class="file-upload" onclick="document.getElementById('idPhoto').click()">
+                            <i class="fas fa-camera-retro fa-2x"></i>
+                            <p>Click to upload photo<br><small>(JPEG/PNG, max 5MB)</small></p>
+                            <img src="#" class="image-preview" id="imagePreview" alt="ID Preview">
+                            <input type="file" id="idPhoto" name="id_photo" hidden accept="image/*">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload Payslip</label>
+                        <div class="file-upload" onclick="document.getElementById('payslip').click()">
+                            <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                            <p>Click to upload payslip<br><small>(PDF, JPG, PNG, max 5MB)</small></p>
+                            <input type="file" id="payslip" name="payslip" hidden accept=".pdf,.jpg,.jpeg,.png">
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Terms & Submit -->
+                <div class="terms">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a></label>
+                </div>
+                <button type="submit" class="auth-btn" style="width: 100%; padding: 1.2rem;">
+                    Complete Registration <i class="fas fa-user-check"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        
+    // Image Preview
+    document.getElementById('idPhoto').addEventListener('change', function(e) {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imagePreview').style.display = 'block';
+                document.getElementById('imagePreview').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Password Validation
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const strengthIndicator = document.getElementById('passwordStrength');
+    const matchIndicator = document.getElementById('passwordMatch');
+
+    function checkPasswordStrength(password) {
+        const strength = {
+            0: 'Very Weak',
+            1: 'Weak',
+            2: 'Moderate',
+            3: 'Strong',
+            4: 'Very Strong'
+        };
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (password.match(/[A-Z]/)) score++;
+        if (password.match(/[0-9]/)) score++;
+        if (password.match(/[^A-Za-z0-9]/)) score++;
+        return strength[Math.min(score, 4)];
+    }
+
+    function validatePasswords() {
+        // Strength check
+        const strength = checkPasswordStrength(password.value);
+        strengthIndicator.textContent = `Strength: ${strength}`;
+        strengthIndicator.className = `password-feedback ${strength === 'Very Weak' ? 'invalid' : 'valid'}`;
+
+        // Match check
+        if (password.value && confirmPassword.value) {
+            if (password.value === confirmPassword.value) {
+                matchIndicator.textContent = "✓ Passwords match";
+                matchIndicator.className = "password-feedback valid";
+            } else {
+                matchIndicator.textContent = "✗ Passwords don't match";
+                matchIndicator.className = "password-feedback invalid";
+            }
+        }
+    }
+
+    password.addEventListener('input', validatePasswords);
+    confirmPassword.addEventListener('input', validatePasswords);
+
+
+
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+    // Remove alert and reset that were preventing submission
+    if (password.value !== confirmPassword.value) {
+        e.preventDefault();
+        alert('Passwords do not match!');
+        return;
+    }
+    
+    // Optional: Add loading state
+    this.querySelector('button').innerHTML = 'Registering... <i class="fas fa-spinner fa-spin"></i>';
+});
+    </script>
+</body>
+</html>

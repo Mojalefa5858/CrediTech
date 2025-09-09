@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application - LesothoPrime Loans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+            .loan-amount-container {
+                background: rgba(0, 0, 0, 0.15);
+                padding: 2.5rem;
+                border-radius: 1.5rem;
+                margin: 2rem 0;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .slider-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 1.5rem;
+                color: var(--secondary);
+                font-size: 0.9rem;
+            }
+            
+            .amount-display {
+                text-align: center;
+                font-size: 3rem;
+                font-weight: 700;
+                margin: 2rem 0;
+                position: relative;
+                background: linear-gradient(45deg, var(--primary), var(--secondary));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                transition: all 0.3s ease;
+            }
+            
+            .slider-wrapper {
+                position: relative;
+                margin: 2rem 0;
+            }
+            
+            .loan-amount-slider {
+                width: 100%;
+                height: 12px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                -webkit-appearance: none;
+                position: relative;
+                z-index: 2;
+            }
+            
+            /* Progress Fill */
+            .loan-amount-slider::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                height: 100%;
+                width: var(--fill-width, 0%);
+                background: linear-gradient(90deg, var(--primary), var(--secondary));
+                border-radius: 10px;
+                transition: width 0.3s ease;
+            }
+            
+            .loan-amount-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 32px;
+                height: 32px;
+                background: linear-gradient(45deg, var(--primary), var(--secondary));
+                border-radius: 50%;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border: 4px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+            }
+            
+            .loan-amount-slider::-webkit-slider-thumb:hover {
+                transform: scale(1.1);
+                box-shadow: 0 6px 25px rgba(0, 255, 135, 0.4);
+            }
+            
+            /* Value Markers */
+            .slider-markers {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 1rem;
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 0.9rem;
+            }
+            
+            /* Animated Border Effect */
+            .loan-amount-container::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 1.5rem;
+                border: 2px solid transparent;
+                background: linear-gradient(45deg, var(--primary), var(--secondary)) border-box;
+                -webkit-mask: 
+                    linear-gradient(#fff 0 0) padding-box, 
+                    linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                animation: borderAnim 3s infinite linear;
+            }
+            
+            @keyframes borderAnim {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }     :root {
+                    --primary: #00ff87;
+                    --secondary: #60efff;
+                    --dark: #0f0c29;
+                    --accent: #ff6b6b;
+                    --space: #1a1a2e;
+                }
+            
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                    font-family: 'Poppins', sans-serif;
+                }
+            
+                body {
+                    padding-top: 6.5rem; /* Push all content below the fixed nav */
+                    background: radial-gradient(circle at top right, var(--dark), #302b63, #24243e);
+                    color: white;
+                    line-height: 1.6;
+                    overflow-x: hidden;
+                }
+            
+                .main-header {
+                    position: fixed;
+                    top: 0;
+                    width: 100%;
+                    background: rgba(255, 255, 255, 0.02);
+                    backdrop-filter: blur(15px);
+                    z-index: 1000;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                }
+            
+                .navbar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1.2rem 8%;
+                    max-width: 1400px;
+                    margin: 0 auto;
+                }
+            
+                .logo {
+                    font-size: 2.2rem;
+                    font-weight: 800;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    filter: drop-shadow(0 0 15px rgba(96, 239, 255, 0.3));
+                }
+            
+                .nav-links {
+                    display: flex;
+                    gap: 1.5rem;
+                    align-items: center;
+                }
+            
+                .nav-link {
+                    color: rgba(255, 255, 255, 0.9);
+                    text-decoration: none;
+                    padding: 0.5rem 1.5rem;
+                    border-radius: 30px;
+                    transition: all 0.3s ease;
+                    position: relative;
+                }
+            
+                .auth-btn {
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    color: var(--dark);
+                    padding: 0.8rem 2rem;
+                    border-radius: 30px;
+                    text-decoration: none;
+                    font-weight: 600;
+                    transition: transform 0.3s ease;
+                    box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+                }
+            
+                .auth-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba(0, 255, 135, 0.4);
+                }
+            
+                .hero-section {
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    overflow: hidden;
+                    padding: 14rem 8% 6rem; /* increased from 10rem to 14rem */
+                    padding-top: 6.5rem; /* enough to go below the fixed nav */
+                padding-left: 8%;
+                padding-right: 8%;
+                padding-bottom: 6rem;
+            
+                }
+            
+                .hero-content {
+                    text-align: center;
+                    max-width: 800px;
+                    position: relative;
+                    z-index: 2;
+                }
+            
+                .hero-title {
+                    font-size: 4.5rem;
+                    margin-bottom: 2rem;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    line-height: 1.1;
+                    animation: textReveal 1s ease forwards;
+                }
+            
+                .hero-subtitle {
+                    font-size: 1.5rem;
+                    margin-bottom: 3rem;
+                    opacity: 0.9;
+                    animation: slideUp 1s ease 0.3s forwards;
+                }
+            
+                .hero-buttons {
+                    display: flex;
+                    gap: 1.5rem;
+                    justify-content: center;
+                    margin-top: 3rem;
+                }
+            
+                .cta-btn {
+                    padding: 1.2rem 2.5rem;
+                    border-radius: 30px;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    text-decoration: none;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.8rem;
+                }
+            
+                .primary-cta {
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    color: var(--dark);
+                    box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+                }
+            
+                .secondary-cta {
+                    border: 2px solid var(--primary);
+                    color: var(--primary);
+                    backdrop-filter: blur(10px);
+                }
+            
+                .secondary-cta:hover {
+                    background: var(--primary);
+                    color: var(--dark);
+                }
+            
+                .gradient-blob {
+                    position: absolute;
+                    width: 600px;
+                    height: 600px;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    border-radius: 50%;
+                    filter: blur(80px);
+                    opacity: 0.1;
+                    z-index: 1;
+                    animation: float 20s infinite;
+                }
+            
+                .blob-1 {
+                    top: -20%;
+                    left: -10%;
+                    animation-delay: 0s;
+                }
+            
+                .blob-2 {
+                    bottom: -30%;
+                    right: -15%;
+                    animation-delay: 5s;
+                }
+            
+                @keyframes float {
+                    0%, 100% { transform: translate(0, 0) scale(1); }
+                    25% { transform: translate(100px, -50px) scale(1.1); }
+                    50% { transform: translate(-50px, 50px) scale(0.9); }
+                    75% { transform: translate(-100px, -100px) scale(1.05); }
+                }
+            
+                .section {
+                    padding: 8rem 8%;
+                    position: relative;
+                }
+            
+                .section-title {
+                    font-size: 3rem;
+                    margin-bottom: 3rem;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    text-align: center;
+                }
+            
+                .about-content {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 4rem;
+                    align-items: center;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+            
+                .about-text {
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 3rem;
+                    border-radius: 2rem;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+            
+                .mission-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+            
+                .mission-card {
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 3rem;
+                    border-radius: 2rem;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: transform 0.3s ease;
+                    text-align: center;
+                }
+            
+                .mission-card:hover {
+                    transform: translateY(-10px);
+                }
+            
+                .mission-card i {
+                    font-size: 2.5rem;
+                    margin-bottom: 1.5rem;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+            
+                @media (max-width: 768px) {
+                    .hero-title {
+                        font-size: 3rem;
+                    }
+                    
+                    .nav-links {
+                        display: none;
+                    }
+                    
+                    .gradient-blob {
+                        display: none;
+                    }
+            
+                    .about-content {
+                        grid-template-columns: 1fr;
+                    }
+                }    .dashboard-content {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 2rem;
+                }
+            
+                .welcome-section {
+                    text-align: center;
+                    margin-bottom: 4rem;
+                }
+            
+                .welcome-text {
+                    font-size: 2.5rem;
+                    margin-bottom: 1rem;
+                }
+            
+                .metrics-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                    margin-bottom: 3rem;
+                }
+            
+                .metric-card {
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 2rem;
+                    border-radius: 1.5rem;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: transform 0.3s ease;
+                }
+            
+                .metric-card:hover {
+                    transform: translateY(-5px);
+                }
+            
+                .metric-value {
+                    font-size: 2.5rem;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    margin-bottom: 0.5rem;
+                }
+            
+                .quick-actions {
+                    display: flex;
+                    gap: 1.5rem;
+                    justify-content: center;
+                    margin-bottom: 4rem;
+                }
+            
+                .loan-list {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 1.5rem;
+                    padding: 2rem;
+                }
+            
+                .loan-item {
+                    padding: 1.5rem;
+                    background: rgba(0, 0, 0, 0.1);
+                    border-radius: 1rem;
+                    margin-bottom: 1rem;
+                }
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                    font-family: 'Poppins', sans-serif;
+                }
+            
+                body {
+                    padding-top: 6.5rem;
+                    background: radial-gradient(circle at top right, var(--dark), #302b63, #24243e);
+                    color: white;
+                    line-height: 1.6;
+                    overflow-x: hidden;
+                }
+            
+                .main-header {
+                    position: fixed;
+                    top: 0;
+                    width: 100%;
+                    background: rgba(255, 255, 255, 0.02);
+                    backdrop-filter: blur(15px);
+                    z-index: 1000;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                }
+            
+                .navbar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1.2rem 8%;
+                    max-width: 1400px;
+                    margin: 0 auto;
+                }
+            
+                .logo {
+                    font-size: 2.2rem;
+                    font-weight: 800;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    filter: drop-shadow(0 0 15px rgba(96, 239, 255, 0.3));
+                }
+            
+                /* Application Form Specific Styles */
+                .application-container {
+                    max-width: 800px;
+                    margin: 2rem auto;
+                    padding: 3rem;
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(15px);
+                    border-radius: 2rem;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                }
+            
+                .form-title {
+                    font-size: 2.5rem;
+                    margin-bottom: 2rem;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    text-align: center;
+                }
+            
+                .form-group {
+                    margin-bottom: 2rem;
+                }
+            
+                label {
+                    display: block;
+                    margin-bottom: 1rem;
+                    font-size: 1.1rem;
+                    color: var(--secondary);
+                }
+            
+                input, select, textarea {
+                    width: 100%;
+                    padding: 1rem;
+                    background: rgba(0, 0, 0, 0.2);
+                    border: 2px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 1rem;
+                    color: white;
+                    font-size: 1rem;
+                    transition: all 0.3s ease;
+                }
+            
+                input:focus, select:focus, textarea:focus {
+                    border-color: var(--primary);
+                    box-shadow: 0 0 15px rgba(0, 255, 135, 0.2);
+                    outline: none;
+                }
+            
+                .loan-amount-container {
+                    background: rgba(0, 0, 0, 0.15);
+                    padding: 2rem;
+                    border-radius: 1.5rem;
+                    margin: 2rem 0;
+                }
+            
+                .amount-display {
+                    text-align: center;
+                    font-size: 2.5rem;
+                    font-weight: 700;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    margin: 1.5rem 0;
+                }
+            
+                .loan-amount-slider {
+                    width: 100%;
+                    height: 8px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 4px;
+                    -webkit-appearance: none;
+                }
+            
+                .loan-amount-slider::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    width: 24px;
+                    height: 24px;
+                    background: var(--primary);
+                    border-radius: 50%;
+                    cursor: pointer;
+                    transition: transform 0.3s ease;
+                }
+            
+                .loan-summary {
+                    background: rgba(0, 0, 0, 0.2);
+                    padding: 2rem;
+                    border-radius: 1.5rem;
+                    margin: 2rem 0;
+                }
+            
+                .summary-item {
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 1.2rem 0;
+                    font-size: 1.1rem;
+                }
+                .loan-amount-container {
+                margin: 2rem 0;
+            }
+            
+            .amount-display {
+                font-size: 2rem;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 1rem;
+                color: var(--primary);
+            }
+            
+            .loan-amount-slider {
+                width: 100%;
+                height: 10px;
+                -webkit-appearance: none;
+                background: linear-gradient(to right, var(--primary), var(--secondary));
+                border-radius: 5px;
+                outline: none;
+            }
+            
+            .loan-amount-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                background: var(--secondary);
+                cursor: pointer;
+                box-shadow: 0 0 5px rgba(0,0,0,0.3);
+            }
+            
+            .loan-summary {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 10px;
+                padding: 1.5rem;
+                margin: 1.5rem 0;
+            }
+            
+            .summary-item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+            }
+            
+            .summary-item:last-child {
+                margin-bottom: 0;
+                font-weight: bold;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                padding-top: 0.5rem;
+            }
+            
+            .summary-label {
+                color: rgba(255,255,255,0.7);
+            }
+            
+            .summary-value {
+                font-weight: bold;
+            }
+            
+            .terms-checkbox {
+                margin: 1.5rem 0;
+                display: flex;
+                align-items: center;
+            }
+            
+            .terms-checkbox input {
+                margin-right: 10px;
+            }
+            
+            .btn-primary {
+                width: 100%;
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+            
+            .alert-warning {
+                background-color: rgba(255,193,7,0.2);
+                border-left: 4px solid var(--warning);
+                padding: 0.75rem 1.25rem;
+            }
+                .summary-label {
+                    color: var(--secondary);
+                }
+            
+                .summary-value {
+                    font-weight: 600;
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+            
+                .terms-checkbox {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    margin: 2rem 0;
+                }
+            
+                .terms-checkbox input {
+                    width: auto;
+                }
+            
+                .terms-checkbox label {
+                    margin: 0;
+                    color: rgba(255, 255, 255, 0.8);
+                }
+            
+                button[type="submit"] {
+                    background: linear-gradient(45deg, var(--primary), var(--secondary));
+                    color: var(--dark);
+                    padding: 1.2rem 2.5rem;
+                    border: none;
+                    border-radius: 2rem;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    width: 100%;
+                    box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+                }
+            
+                button[type="submit"]:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 25px rgba(0, 255, 135, 0.4);
+                }
+            
+                @media (max-width: 768px) {
+                    .application-container {
+                        padding: 2rem;
+                        margin: 1rem;
+                    }
+                    
+                    .form-title {
+                        font-size: 2rem;
+                    }
+                }
+               
+        /* Your existing CSS here */
+        /* Loading screen styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        }
+        
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            border-top: 8px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .alert-error {
+            background-color: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff0000;
+            color: #ff6b6b;
+        }
+        
+        .alert-success {
+            background-color: rgba(0, 255, 0, 0.1);
+            border-left: 4px solid #00ff87;
+            color: #00ff87;
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <div class="loading-text">Processing your application...</div>
+    </div>
+
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">CrediTech</div>
+            <div class="nav-links">
+                <a href="{% url 'home'%}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="{% url 'apply'%}" class="nav-link active"><i class="fas fa-hand-holding-usd"></i> Apply Loan</a>
+                <a href="{% url 'loan_history'%}" class="nav-link"><i class="fas fa-history"></i> Loan History</a>
+                <a href="#settings" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+                <a href="{% url 'home'%}" class="auth-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="application-container">
+        <h1 class="form-title">Loan Application</h1>
+        
+        <div id="errorAlert" class="alert alert-error"></div>
+        <div id="successAlert" class="alert alert-success"></div>
+        
+        <form method="POST" id="loanForm" action="{% url 'apply' %}">
+            {% csrf_token %} 
+        
+            <div class="form-group">
+                <label for="purpose"><i class="fas fa-bullseye"></i> Loan Type</label>
+                <select id="purpose" name="purpose" class="form-control" required>
+                    <option value="">Select Type</option>
+                    {% for value, text in form.purpose.field.choices %}
+                        {% if value %}
+                            <option value="{{ value }}">{{ text }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="loan-amount-container">
+                <div class="amount-display">
+                    <span id="amountDisplay">M5,000</span>
+                </div>
+                <input type="range" id="loanAmount" name="amount" 
+                       min="1000" max="90000" step="100" value="5000"
+                       class="loan-amount-slider">
+                <div class="slider-markers">
+                    <span id="minAmount">M1,000</span>
+                    <span id="maxAmount">M90,000</span>
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label for="comments"><i class="fas fa-comment-alt"></i> Additional Comments</label>
+                <textarea id="comments" name="comments" rows="4" class="form-control"
+                          placeholder="Tell us more about your loan needs..."></textarea>
+            </div>
+        
+            <div class="loan-summary">
+                <div class="summary-item">
+                    <span class="summary-label">Loan Amount</span>
+                    <span class="summary-value" id="summaryAmount">M5,000</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Total Interest (30%)</span>
+                    <span class="summary-value" id="summaryInterest">M1,500</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Total Repayment</span>
+                    <span class="summary-value" id="summaryTotal">M6,500</span>
+                </div>
+            </div>
+        
+            <div class="terms-checkbox form-check">
+                <input type="checkbox" id="agreeTerms" name="agree_to_terms" class="form-check-input" required>
+                <label for="agreeTerms" class="form-check-label">
+                    I agree to the <a href="/terms" target="_blank" style="color: var(--secondary);">terms and conditions</a>
+                </label>
+            </div>
+        
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Submit Application
+            </button>
+        </form>
+    </div>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('loanForm');
+        const amountInput = document.getElementById('loanAmount');
+        const amountDisplay = document.getElementById('amountDisplay');
+        const summaryAmount = document.getElementById('summaryAmount');
+        const summaryInterest = document.getElementById('summaryInterest');
+        const summaryTotal = document.getElementById('summaryTotal');
+        const minAmountDisplay = document.getElementById('minAmount');
+        const maxAmountDisplay = document.getElementById('maxAmount');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const errorAlert = document.getElementById('errorAlert');
+        const successAlert = document.getElementById('successAlert');
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+        // Salary-based loan limits (in M)
+        const SALARY_BRACKETS = [
+            { min: 2000, max: 5000, loanLimit: 20000 },
+            { min: 5000, max: 10000, loanLimit: 50000 },
+            { min: 10000, max: 20000, loanLimit: 100000 },
+            { min: 20000, max: 30000, loanLimit: 150000 },
+            { min: 30000, max: 50000, loanLimit: 250000 }
+        ];
+    
+        // Default values if user salary isn't available
+        let userMonthlyIncome = 0;
+        let userLoanLimit = 20000; // Default minimum
+    
+        // Try to get user's monthly income from the template context
+        try {
+            userMonthlyIncome = parseFloat("{{ request.user.monthly_income }}") || 0;
+            
+            // Determine the user's loan limit based on salary
+            for (const bracket of SALARY_BRACKETS) {
+                if (userMonthlyIncome >= bracket.min && userMonthlyIncome < bracket.max) {
+                    userLoanLimit = bracket.loanLimit;
+                    break;
+                }
+            }
+            
+            // If salary is above the highest bracket, use the highest limit
+            if (userMonthlyIncome >= SALARY_BRACKETS[SALARY_BRACKETS.length - 1].max) {
+                userLoanLimit = SALARY_BRACKETS[SALARY_BRACKETS.length - 1].loanLimit;
+            }
+        } catch (e) {
+            console.error("Could not parse user income:", e);
+        }
+    
+        // Set loan amount slider limits based on user's salary
+        function initializeSlider() {
+            const minLoan = 1000; // Absolute minimum loan amount
+            const maxLoan = userLoanLimit;
+            const defaultLoan = Math.min(5000, maxLoan); // Default to 5000 or max if lower
+            
+            // Update slider attributes
+            amountInput.min = minLoan;
+            amountInput.max = maxLoan;
+            amountInput.value = defaultLoan;
+            
+            // Update displayed min/max values
+            minAmountDisplay.textContent = formatCurrency(minLoan);
+            maxAmountDisplay.textContent = formatCurrency(maxLoan);
+            
+            // Update calculations
+            updateCalculations();
+            
+            // Show loan limit info to user
+            showLoanLimitInfo();
+        }
+    
+        function formatCurrency(amount) {
+            return 'M' + parseInt(amount).toLocaleString('en-US');
+        }
+    
+        function updateCalculations() {
+            const amount = parseFloat(amountInput.value);
+            const interest = amount * 0.3;
+            const total = amount + interest;
+    
+            amountDisplay.textContent = formatCurrency(amount);
+            summaryAmount.textContent = formatCurrency(amount);
+            summaryInterest.textContent = formatCurrency(interest);
+            summaryTotal.textContent = formatCurrency(total);
+        }
+    
+        function showLoanLimitInfo() {
+            // Remove any existing info message
+            const existingInfo = document.querySelector('.loan-limit-info');
+            if (existingInfo) {
+                existingInfo.remove();
+            }
+            
+            // Create and show new info message
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'loan-limit-info alert-warning';
+            infoDiv.innerHTML = `
+                <i class="fas fa-info-circle"></i> 
+                Based on your monthly salary of M${userMonthlyIncome.toLocaleString('en-US')}, 
+                your maximum loan limit is ${formatCurrency(userLoanLimit)}.
+            `;
+            
+            // Insert after the loan amount container
+            const loanAmountContainer = document.querySelector('.loan-amount-container');
+            loanAmountContainer.parentNode.insertBefore(infoDiv, loanAmountContainer.nextSibling);
+        }
+    
+        function showError(message) {
+            errorAlert.style.display = 'block';
+            errorAlert.textContent = message;
+            setTimeout(() => {
+                errorAlert.style.display = 'none';
+            }, 5000);
+        }
+    
+        function showSuccess(message) {
+            successAlert.style.display = 'block';
+            successAlert.textContent = message;
+            setTimeout(() => {
+                successAlert.style.display = 'none';
+            }, 5000);
+        }
+    
+        amountInput.addEventListener('input', updateCalculations);
+    
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate form
+            if (!document.getElementById('agreeTerms').checked) {
+                showError('You must agree to the terms and conditions');
+                return;
+            }
+    
+            const amount = parseFloat(amountInput.value);
+            
+            if (amount < amountInput.min || amount > amountInput.max) {
+                showError(`Loan amount must be between ${formatCurrency(amountInput.min)} and ${formatCurrency(amountInput.max)}`);
+                return;
+            }
+    
+            // Show loading overlay
+            loadingOverlay.style.display = 'flex';
+    
+            try {
+                const formData = new FormData(form);
+                
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: formData
+                });
+    
+                const data = await response.json();
+    
+                if (response.ok) {
+                    if (data.success) {
+                        showSuccess('Application submitted successfully!');
+                        // Reset form or redirect if needed
+                        if (data.redirect_url) {
+                            window.location.href = data.redirect_url;
+                        }
+                    } else {
+                        showError(data.error || 'Error submitting application');
+                    }
+                } else {
+                    showError(data.error || 'Server error occurred');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Network error occurred. Please try again.');
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        });
+    
+        // Initialize the slider with salary-based limits
+        initializeSlider();
+    });
+
+</script>
+</body>
+</html>

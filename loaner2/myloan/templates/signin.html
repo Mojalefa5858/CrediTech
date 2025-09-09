@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - LesothoPrime Loans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    :root {
+        --primary: #00ff87;
+        --secondary: #60efff;
+        --dark: #0f0c29;
+        --accent: #ff6b6b;
+        --space: #1a1a2e;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background: radial-gradient(circle at top right, var(--dark), #302b63, #24243e);
+        color: white;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    .main-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(15px);
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 8%;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 15px rgba(96, 239, 255, 0.3));
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    .auth-btn {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: var(--dark);
+        padding: 0.8rem 2rem;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+    }
+
+    .signup-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10rem 8% 6rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .signup-container {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 2rem;
+        padding: 3rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        max-width: 500px;
+        width: 100%;
+    }
+
+    .form-title {
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: var(--primary);
+        font-weight: 500;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        color: white;
+        font-size: 1rem;
+    }
+    .main-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(15px);
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 8%;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 15px rgba(96, 239, 255, 0.3));
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    .nav-link {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .auth-btn {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: var(--dark);
+        padding: 0.8rem 2rem;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+    }
+
+
+    .error-message {
+        color: var(--accent);
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .gradient-blob {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.1;
+        animation: float 20s infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(100px, -50px) scale(1.1); }
+        50% { transform: translate(-50px, 50px) scale(0.9); }
+        75% { transform: translate(-100px, -100px) scale(1.05); }
+    }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">CrediTech</div>
+            <div class="nav-links">
+                <a href="{%url 'welcome'%}" class="nav-link">Home</a>
+
+                <a href="{% url 'signup' %}" class="auth-btn">Sign Up</a>
+
+            </div>
+        </nav>
+    </header>
+
+    <section class="signup-section">
+        <div class="gradient-blob blob-1"></div>
+        <div class="gradient-blob blob-2"></div>
+        
+        <div class="signup-container">
+            <h2 class="form-title">Sign In</h2>
+            
+            {% if messages %}
+            <div class="error-message" style="margin-bottom: 2rem;">
+                {% for message in messages %}
+                <div style="padding: 1rem; border-radius: 1rem; background: rgba(255,107,107,0.1); border: 1px solid var(--accent);">
+                    <i class="fas fa-exclamation-circle"></i> {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" name="password" required>
+                </div>
+
+                <button type="submit" class="auth-btn" style="width: 100%; padding: 1.2rem; margin-top: 1.5rem;">
+                    Sign In <i class="fas fa-sign-in-alt"></i>
+                </button>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <p>Don't have an account? <a href="{% url 'signup' %}" style="color: var(--secondary);">Sign Up</a></p>
+                    <p style="margin-top: 1rem;"><a href="#forgot-password" style="color: var(--primary);">Forgot Password?</a></p>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

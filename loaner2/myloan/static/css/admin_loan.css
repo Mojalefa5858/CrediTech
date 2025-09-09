@@ -1,0 +1,52 @@
+/* Style for action buttons */
+.button.approve-btn {
+    background: #4CAF50 !important;
+    color: white !important;
+    padding: 5px 10px !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.3s !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+    margin-right: 5px !important;
+}
+
+.button.approve-btn:hover {
+    background: #45a049 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
+
+.button.decline-btn {
+    background: #f44336 !important;
+    color: white !important;
+    padding: 5px 10px !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.3s !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+.button.decline-btn:hover {
+    background: #d32f2f !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
+
+/* For the inline actions */
+#loan_set-group .inline-related td a.button {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 2px 5px;
+    font-size: 12px;
+}
+
+/* Hover effects */
+a.button:hover {
+    opacity: 0.9;
+}

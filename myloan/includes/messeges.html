@@ -1,0 +1,17 @@
+{% for message in messages %}
+<div class="django-message django-{{ message.tags }}">
+    <div class="message-content">
+        <span class="message-icon">
+            <i class="fas 
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}fa-exclamation-circle
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}fa-check-circle
+                {% else %}fa-info-circle{% endif %}">
+            </i>
+        </span>
+        <span class="message-text">{{ message }}</span>
+    </div>
+    <button class="message-close" onclick="this.parentElement.remove()">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+{% endfor %}

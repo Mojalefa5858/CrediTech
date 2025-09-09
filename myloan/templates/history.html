@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan History - LesothoPrime Loans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ff87;
+            --secondary: #60efff;
+            --dark: #0f0c29;
+            --accent: #ff6b6b;
+            --space: #1a1a2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            padding-top: 6.5rem;
+            background: radial-gradient(circle at top right, var(--dark), #302b63, #24243e);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 8%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(96, 239, 255, 0.3));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 135, 0.4);
+        }
+
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .loan-list {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            padding: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-approved, .status-paid {
+            background: rgba(0, 255, 135, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .status-pending {
+            background: rgba(96, 239, 255, 0.1);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .status-declined {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .status-paid-off {
+            background: rgba(0, 255, 135, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .decline-reason {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .no-loans {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 135, 0.4);
+        }
+
+        .make-payment-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .make-payment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 255, 135, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                gap: 0.5rem;
+            }
+            
+            .dashboard-content {
+                padding: 1rem;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% load humanize %}
+    {% load math_filters %}
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">CrediTech</div>
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="{% url 'apply' %}" class="nav-link {% if request.path == '/apply/' %}active{% endif %}">
+                    <i class="fas fa-hand-holding-usd"></i> Apply Loan
+                </a>
+                <a href="{% url 'loan_history' %}" class="nav-link {% if request.path == '/history/' %}active{% endif %}">
+                    <i class="fas fa-history"></i> Loan History
+                </a>
+                <a href="{% url 'settings' %}" class="nav-link">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="{% url 'welcome' %}" class="auth-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="dashboard-content">
+        <div class="loan-list">
+            <h2>Your Activity History</h2>
+            
+            {% if activities %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for activity in activities %}
+                        <tr>
+                            <td>{{ activity.date|date:"M d, Y H:i" }}</td>
+                            <td>{{ activity.type|title }}</td>
+                            <td>{{ activity.description }}</td>
+                            <td>M{{ activity.amount|floatformat:2|intcomma }}</td>
+                            <td>
+                                <span class="status-badge status-{% if activity.type == 'loan' and activity.details.is_paid %}paid-off{% else %}{{ activity.status|lower }}{% endif %}">
+                                    {% if activity.type == 'loan' and activity.details.is_paid %}Paid Off{% else %}{{ activity.status }}{% endif %}
+                                </span>
+                            </td>
+                            <td>
+                                {% if activity.type == 'loan' %}
+                                    <p>Total Owed: M{{ activity.details.total_owed|floatformat:2|intcomma }}</p>
+                                    {% if activity.details.payment_percentage > 0 %}
+                                        <small>{{ activity.details.payment_percentage|floatformat:0 }}% on-time payments</small>
+                                    {% endif %}
+                                    {% if activity.status == 'Approved' and not activity.details.is_paid %}
+                                        <button class="make-payment-btn" data-loan-id="{{ activity.details.loan_id }}">
+                                            <i class="fas fa-money-bill-wave"></i> Record Payment
+                                        </button>
+                                    {% elif activity.status == 'Declined' %}
+                                        <p class="decline-reason">{{ activity.details.comments }}</p>
+                                    {% endif %}
+                                {% elif activity.type == 'payment' %}
+                                    <p>USD: ${{ activity.details.amount_usd|floatformat:2|intcomma }}</p>
+                                    <p>Recipient: {{ activity.details.recipient_email }}</p>
+                                    <p>Batch ID: {{ activity.details.batch_id }}</p>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="no-loans">
+                    <p>You don't have any loans yet</p>
+                    <a href="{% url 'apply' %}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Apply Now
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle payment button clicks
+        document.querySelectorAll('.make-payment-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const loanId = this.getAttribute('data-loan-id');
+                if (confirm('Record payment for this loan?')) {
+                    fetch(`/record-payment/${loanId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            on_time: confirm('Was this payment made on time?')
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Payment recorded successfully!');
+                            window.location.reload();
+                        } else {
+                            alert('Error: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to record payment');
+                    });
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

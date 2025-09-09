@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LesothoPrime Loans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ff87;
+            --secondary: #60efff;
+            --dark: #0f0c29;
+            --accent: #ff6b6b;
+            --space: #1a1a2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            padding-top: 6.5rem;
+            background: radial-gradient(circle at top right, var(--dark), #302b63, #24243e);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 8%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(96, 239, 255, 0.3));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 135, 0.4);
+        }
+
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-text {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 135, 0.4);
+        }
+
+        .loan-list {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            padding: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-approved {
+            background: rgba(0, 255, 135, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .status-pending {
+            background: rgba(96, 239, 255, 0.1);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .status-declined {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .decline-reason {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .no-loans {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                gap: 0.5rem;
+            }
+            
+            .dashboard-content {
+                padding: 1rem;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% load humanize %}  <!-- Add this line -->
+    {% load loan_filters %}
+    {% load math_filters %}
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">CrediTech</div>
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="{% url 'apply' %}" class="nav-link {% if request.path == '/apply/' %}active{% endif %}">
+                    <i class="fas fa-hand-holding-usd"></i> Apply Loan
+                </a>
+                <a href="{% url 'loan_history' %}" class="nav-link {% if request.path == '/histofry/' %}active{% endif %}">
+                    <i class="fas fa-history"></i> Loan History
+                </a>
+                <a href="{% url 'settings'%}" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+
+                <a href="{% url 'welcome' %}" class="auth-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    
+        <div class="loan-list">
+            <h2>Your Loan Applications</h2>
+            
+            {% if loans %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Purpose</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date Applied</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for loan in loans %}
+                        <tr>
+                            <td>{{ loan.get_purpose_display }}</td>
+                            <td>M{{ loan.amount|floatformat:2|intcomma }}</td>
+                            <td>
+                                <span class="status-badge status-{{ loan.status }}">
+                                    {{ loan.get_status_display }}
+                                </span>
+                            </td>
+                            <td>{{ loan.date_applied|date:"M d, Y" }}</td>
+                            <td>
+                                {% if loan.status == 'approved' %}
+                                    <p>Total Owed: M{{ loan.total_owed|floatformat:2|intcomma }}</p>
+                                    {% if loan.payments_made > 0 %}
+                                        <small>{{ loan.payment_percentage|floatformat:0 }}% on-time payments</small>
+                                    {% endif %}
+                                    <button class="make-payment-btn" data-loan-id="{{ loan.id }}">
+                                        <i class="fas fa-money-bill-wave"></i> Record Payment
+                                    </button>
+                                {% elif loan.status == 'declined' %}
+                                    <p class="decline-reason">{{ loan.comments }}</p>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="no-loans">
+                    <p>You don't have any loans yet</p>
+                    <a href="{% url 'apply' %}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Apply Now
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle payment button clicks
+        document.querySelectorAll('.make-payment-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const loanId = this.getAttribute('data-loan-id');
+                if (confirm('Record payment for this loan?')) {
+                    fetch(`/record-payment/${loanId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            on_time: confirm('Was this payment made on time?')
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Payment recorded successfully!');
+                            window.location.reload();
+                        } else {
+                            alert('Error: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to record payment');
+                    });
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

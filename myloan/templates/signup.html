@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - LesothoPrime Loans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    :root {
+        --primary: #00ff87;
+        --secondary: #60efff;
+        --dark: #0f0c29;
+        --accent: #ff6b6b;
+        --space: #1a1a2e;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background: radial-gradient(circle at top right, var(--dark), #302b63, #24243e);
+        color: white;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    .main-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(15px);
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 8%;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 15px rgba(96, 239, 255, 0.3));
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    .nav-link {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .auth-btn {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: var(--dark);
+        padding: 0.8rem 2rem;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+    }
+
+    .signup-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10rem 8% 6rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .signup-container {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 2rem;
+        padding: 3rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        max-width: 800px;
+        width: 100%;
+        animation: formEntrance 0.6s ease forwards;
+    }
+
+    @keyframes formEntrance {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .form-title {
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: var(--primary);
+        font-weight: 500;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+        border-color: var(--secondary);
+        box-shadow: 0 0 15px rgba(96, 239, 255, 0.2);
+    }
+
+    .date-wrapper {
+        position: relative;
+    }
+
+    .calendar-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary);
+        pointer-events: none;
+    }
+
+    .file-upload {
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        padding: 2rem;
+        text-align: center;
+        border-radius: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .file-upload:hover {
+        border-color: var(--primary);
+        background: rgba(0, 255, 135, 0.05);
+    }
+
+    .image-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary);
+        margin: 1rem auto;
+        display: none;
+    }
+
+    .password-feedback {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .valid {
+        color: var(--primary) !important;
+    }
+
+    .invalid {
+        color: var(--accent) !important;
+    }
+
+    .terms {
+        text-align: center;
+        margin: 2rem 0;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .terms a {
+        color: var(--secondary);
+        text-decoration: none;
+    }
+
+    .gradient-blob {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.1;
+        z-index: 1;
+        animation: float 20s infinite;
+    }
+
+    .blob-1 { top: -20%; left: -10%; animation-delay: 0s; }
+    .blob-2 { bottom: -30%; right: -15%; animation-delay: 5s; }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(100px, -50px) scale(1.1); }
+        50% { transform: translate(-50px, 50px) scale(0.9); }
+        75% { transform: translate(-100px, -100px) scale(1.05); }
+    }
+
+    @media (max-width: 768px) {
+        .form-grid { grid-template-columns: 1fr; }
+        .signup-container { padding: 2rem; margin: 1rem; }
+        .form-title { font-size: 2rem; }
+    }
+
+    /* Django Messages Styles */
+    .django-messages-container {
+        width: 100%;
+        margin: 0 auto 20px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+  
+    .django-message {
+        padding: 12px 16px;
+        margin-bottom: 12px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        animation: messageSlideIn 0.3s ease-out;
+    }
+  
+    .message-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+  
+    .message-icon {
+        font-size: 18px;
+    }
+  
+    .message-text {
+        font-size: 14px;
+        font-weight: 500;
+    }
+  
+    .message-close {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+        padding: 4px;
+        margin-left: 10px;
+    }
+  
+    .message-close:hover {
+        opacity: 1;
+    }
+  
+    .django-error {
+        background-color: #ffebee;
+        color: #c62828;
+        border-left: 3px solid #c62828;
+    }
+  
+    .django-success {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border-left: 3px solid #2e7d32;
+    }
+  
+    .django-warning {
+        background-color: #fff8e1;
+        color: #f57f17;
+        border-left: 3px solid #f57f17;
+    }
+  
+    .django-info {
+        background-color: #e3f2fd;
+        color: #1565c0;
+        border-left: 3px solid #1565c0;
+    }
+  
+    @keyframes messageSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .upload-loading {
+        display: none;
+        margin-top: 10px;
+        color: var(--secondary);
+    }
+    
+    .required {
+        color: var(--accent);
+    }
+    </style>
+</head>
+
+<body>
+    <section class="signup-section">
+    <div class="gradient-blob blob-1"></div>
+    <div class="gradient-blob blob-2"></div>
+    
+    <div class="signup-container">
+        <h2 class="form-title">Create Account</h2>
+        
+        <!-- Django Messages Display -->
+        <div class="django-messages-container">
+          {% if messages %}
+            {% for message in messages %}
+            <div class="django-message django-{{ message.tags }}">
+              <div class="message-content">
+                <span class="message-icon">
+                  {% if message.tags == 'error' %}
+                    <i class="fas fa-exclamation-circle"></i>
+                  {% elif message.tags == 'success' %}
+                    <i class="fas fa-check-circle"></i>
+                  {% elif message.tags == 'warning' %}
+                    <i class="fas fa-exclamation-triangle"></i>
+                  {% else %}
+                    <i class="fas fa-info-circle"></i>
+                  {% endif %}
+                </span>
+                <span class="message-text">{{ message }}</span>
+              </div>
+              <button class="message-close" onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <form id="signupForm" method="post" enctype="multipart/form-data" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <div class="form-grid">
+                <!-- Document Upload Section (First) -->
+                <div class="document-upload-section">
+                    <h3 class="section-title">Step 1: Upload Documents</h3>
+                    
+                    <!-- ID Upload -->
+                    <div class="form-group">
+                        <label class="form-label">Upload National ID Photo <span class="required">*</span></label>
+                        <div class="file-upload" onclick="document.getElementById('idPhoto').click()">
+                            <i class="fas fa-id-card fa-2x"></i>
+                            <p>Click to upload ID photo<br><small>(JPEG/PNG, max 5MB)</small></p>
+                            <img src="#" class="image-preview" id="imagePreview" alt="ID Preview" style="display: none;">
+                            <div class="upload-loading" id="idUploadLoading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Processing ID...
+                            </div>
+                            <input type="file" id="idPhoto" name="id_photo" hidden accept="image/*" required
+                                   onchange="handleIdUpload(event)">
+                        </div>
+                    </div>
+                    
+                    <!-- Payslip Upload -->
+                    <div class="form-group">
+                        <label class="form-label">Upload Recent Payslip <span class="required">*</span></label>
+                        <div class="file-upload" onclick="document.getElementById('payslip').click()">
+                            <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                            <p>Click to upload payslip<br><small>(PDF, JPG, PNG, max 5MB)</small></p>
+                            <div id="payslipPreviewContainer">
+                                <i id="pdfIcon" class="fas fa-file-pdf fa-3x" style="display: none;"></i>
+                                <img id="payslipPreview" src="#" class="image-preview" alt="Payslip Preview" style="display: none;">
+                            </div>
+                            <input type="file" id="payslip" name="payslip" hidden accept=".pdf,.jpg,.jpeg,.png" required
+                                   onchange="previewPayslip(event)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Information Section -->
+                <div class="personal-info-section">
+                    <h3 class="section-title">Step 2: Personal Information</h3>
+                    
+                    <!-- Auto-filled from ID -->
+                    <div class="form-group">
+                        <label class="form-label">First Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" name="first_name" id="firstName" placeholder="Will be auto-filled from ID" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" name="last_name" id="lastName" placeholder="Will be auto-filled from ID" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">National ID Number <span class="required">*</span></label>
+                        <input type="text" class="form-input" name="national_id_number" id="nationalIdNumber" 
+                               pattern="[0-9]{8,12}" title="8-12 digit ID number" placeholder="Will be auto-filled from ID" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth <span class="required">*</span></label>
+                        <div class="date-wrapper">
+                            <input type="date" class="form-input" name="date_of_birth" id="dateOfBirth" readonly required>
+                            <i class="fas fa-calendar-alt calendar-icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- Manually entered fields -->
+                    <div class="form-group">
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" class="form-input" name="email" placeholder="example@domain.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Lesotho Phone Number <span class="required">*</span></label>
+                        <input type="tel" class="form-input" name="phone_number" 
+                               placeholder="+26650123456"
+                               pattern="^\+266[568]\d{7}$"
+                               title="Lesotho format: +266 followed by 8 digits starting with 5, 6, or 8"
+                               required>
+                        <small class="form-text">Format: +266 followed by 8 digits (e.g. +26650123456)</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Monthly Income (M) <span class="required">*</span></label>
+                        <input type="number" class="form-input" name="monthly_income" placeholder="Enter amount in M" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Place of Work <span class="required">*</span></label>
+                        <input type="text" class="form-input" name="place_of_work" placeholder="Company Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Physical Address <span class="required">*</span></label>
+                        <input type="text" class="form-input" name="physical_address" placeholder="Home Address" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Section -->
+            <div class="password-section">
+                <h3 class="section-title">Step 3: Create Password</h3>
+                <div class="form-group">
+                    <label class="form-label">Password <span class="required">*</span></label>
+                    <input type="password" class="form-input" id="password" name="password" placeholder="••••••••" required>
+                    <div class="password-feedback" id="passwordStrength"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password <span class="required">*</span></label>
+                    <input type="password" class="form-input" id="confirmPassword" name="confirm_password" placeholder="••••••••" required>
+                    <div class="password-feedback" id="passwordMatch"></div>
+                </div>
+            </div>
+
+            <!-- Terms & Submit -->
+            <div class="terms">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I agree to the <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a></label>
+            </div>
+            <button type="submit" class="auth-btn" style="width: 100%; padding: 1.2rem;">
+                Complete Registration <i class="fas fa-user-check"></i>
+            </button>
+        </form>
+    </div>
+</section>
+
+<script>
+    
+// Function to handle ID photo upload and data extraction
+function handleIdUpload(event) {
+    const input = event.target;
+    const preview = document.getElementById('imagePreview');
+    const loadingIndicator = document.getElementById('idUploadLoading');
+    const file = input.files[0];
+    
+    if (file) {
+        // Show preview and loading indicator
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            loadingIndicator.style.display = 'block';
+            
+            // Create FormData to send the image to the server
+            const formData = new FormData();
+            formData.append('id_photo', file);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            
+            // Send to server for processing
+            fetch('/extract_id_data/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Received data:", data); // Debug log
+                loadingIndicator.style.display = 'none';
+                
+                if (data.success) {
+                    // Auto-fill all fields
+                    document.getElementById('firstName').value = data.first_name || '';
+                    document.getElementById('lastName').value = data.last_name || '';
+                    document.getElementById('nationalIdNumber').value = data.id_number || '';
+                    
+                    // Format date if available
+                    if (data.date_of_birth) {
+                        // Convert from DD/MM/YYYY to YYYY-MM-DD
+                        const parts = data.date_of_birth.split(/[\/-]/);
+                        if (parts.length === 3) {
+                            const formattedDate = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+                            document.getElementById('dateOfBirth').value = formattedDate;
+                        }
+                    }
+                    
+                    showToast('ID information extracted successfully!', 'success');
+                } else {
+                    makeFieldsEditable();
+                    showToast(data.error || 'Could not extract ID information. Please enter manually.', 'warning');
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error); // Debug log
+                loadingIndicator.style.display = 'none';
+                makeFieldsEditable();
+                showToast('Error processing ID. Please try again or enter manually.', 'error');
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function makeFieldsEditable() {
+    const fields = [
+        {id: 'firstName', placeholder: 'Enter first name'},
+        {id: 'lastName', placeholder: 'Enter last name'}, 
+        {id: 'nationalIdNumber', placeholder: 'Enter ID number'},
+        {id: 'dateOfBirth', placeholder: 'Select date of birth'}
+    ];
+    
+    fields.forEach(field => {
+        const element = document.getElementById(field.id);
+        if (element) {
+            element.readOnly = false;
+            element.placeholder = field.placeholder;
+            if (!element.value) {
+                element.value = '';
+            }
+        }
+    });
+}
+// Function to show toast messages
+function showToast(message, type) {
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `django-message django-${type === 'error' ? 'error' : type === 'success' ? 'success' : 'info'}`;
+    toast.innerHTML = `
+        <div class="message-content">
+            <span class="message-icon">
+                <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+            </span>
+            <span class="message-text">${message}</span>
+        </div>
+        <button class="message-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    // Add to messages container
+    const container = document.querySelector('.django-messages-container');
+    container.appendChild(toast);
+    
+    // Remove after 5 seconds
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+    }, 5000);
+}
+
+// Function to handle payslip preview
+function previewPayslip(event) {
+    const input = event.target;
+    const pdfIcon = document.getElementById('pdfIcon');
+    const preview = document.getElementById('payslipPreview');
+    
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        
+        if (file.type === 'application/pdf') {
+            pdfIcon.style.display = 'block';
+            preview.style.display = 'none';
+        } else {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                pdfIcon.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
+// Password Validation
+const password = document.getElementById('password');
+const confirmPassword = document.getElementById('confirmPassword');
+const strengthIndicator = document.getElementById('passwordStrength');
+const matchIndicator = document.getElementById('passwordMatch');
+
+function checkPasswordStrength(password) {
+    const strength = {
+        0: 'Very Weak',
+        1: 'Weak',
+        2: 'Moderate',
+        3: 'Strong',
+        4: 'Very Strong'
+    };
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (password.match(/[A-Z]/)) score++;
+    if (password.match(/[0-9]/)) score++;
+    if (password.match(/[^A-Za-z0-9]/)) score++;
+    return strength[Math.min(score, 4)];
+}
+
+function validatePasswords() {
+    // Strength check
+    const strength = checkPasswordStrength(password.value);
+    strengthIndicator.textContent = `Strength: ${strength}`;
+    strengthIndicator.className = `password-feedback ${strength === 'Very Weak' ? 'invalid' : 'valid'}`;
+
+    // Match check
+    if (password.value && confirmPassword.value) {
+        if (password.value === confirmPassword.value) {
+            matchIndicator.textContent = "✓ Passwords match";
+            matchIndicator.className = "password-feedback valid";
+        } else {
+            matchIndicator.textContent = "✗ Passwords don't match";
+            matchIndicator.className = "password-feedback invalid";
+        }
+    }
+}
+
+password.addEventListener('input', validatePasswords);
+confirmPassword.addEventListener('input', validatePasswords);
+
+// Form submission handler
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+    if (password.value !== confirmPassword.value) {
+        e.preventDefault();
+        showToast('Passwords do not match!', 'error');
+        return;
+    }
+    
+    // Add loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Registering... <i class="fas fa-spinner fa-spin"></i>';
+});
+
+// Auto-close messages after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const messages = document.querySelectorAll('.django-message');
+    messages.forEach(message => {
+        setTimeout(() => {
+            message.style.opacity = '0';
+            setTimeout(() => message.remove(), 300);
+        }, 5000);
+    });
+});
+</script>
+
+    <script>
+    // Function to handle ID photo upload and data extraction
+    function handleIdUpload(event) {
+    const MAX_RETRIES = 2;
+    let retryCount = 0;
+    
+    const processUpload = () => {
+        const input = event.target;
+        const preview = document.getElementById('imagePreview');
+        const loadingIndicator = document.getElementById('idUploadLoading');
+        const file = input.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                loadingIndicator.style.display = 'block';
+                
+                const formData = new FormData();
+                formData.append('id_photo', file);
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                
+                fetch('/extract_id_data/', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loadingIndicator.style.display = 'none';
+                    
+                    if (data.success) {
+                        // Auto-fill all fields
+                        document.getElementById('firstName').value = data.first_name || '';
+                        document.getElementById('lastName').value = data.last_name || '';
+                        document.getElementById('nationalIdNumber').value = data.id_number || '';
+                        
+                        if (data.date_of_birth) {
+                            const parts = data.date_of_birth.split(/[\/-]/);
+                            if (parts.length === 3) {
+                                const formattedDate = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+                                document.getElementById('dateOfBirth').value = formattedDate;
+                            }
+                        }
+                        
+                        showToast('ID information extracted successfully!', 'success');
+                    } else {
+                        if (retryCount < MAX_RETRIES) {
+                            retryCount++;
+                            showToast(`Attempt ${retryCount}: Retrying extraction...`, 'warning');
+                            processUpload(); // Retry
+                        } else {
+                            makeFieldsEditable();
+                            showToast(data.error || 'Could not extract all fields. Please enter manually.', 'warning');
+                        }
+                    }
+                })
+                .catch(error => {
+                    loadingIndicator.style.display = 'none';
+                    if (retryCount < MAX_RETRIES) {
+                        retryCount++;
+                        showToast(`Attempt ${retryCount}: Retrying extraction...`, 'warning');
+                        processUpload(); // Retry
+                    } else {
+                        makeFieldsEditable();
+                        showToast('Error processing ID. Please try again or enter manually.', 'error');
+                    }
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    
+    processUpload(); // Start the process
+}
+    // Function to make fields editable if extraction fails
+    function makeFieldsEditable() {
+        const fields = [
+            {id: 'firstName', placeholder: 'Enter first name'},
+            {id: 'lastName', placeholder: 'Enter last name'},
+            {id: 'nationalIdNumber', placeholder: 'Enter ID number'},
+            {id: 'dateOfBirth', placeholder: 'Select date of birth'}
+        ];
+        
+        fields.forEach(field => {
+            const element = document.getElementById(field.id);
+            if (element) {
+                element.readOnly = false;
+                element.placeholder = field.placeholder;
+                if (element.value === '') {
+                    element.value = '';
+                }
+            }
+        });
+    }
+
+    // Function to show toast messages
+    function showToast(message, type) {
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = `django-message django-${type === 'error' ? 'error' : type === 'success' ? 'success' : 'info'}`;
+        toast.innerHTML = `
+            <div class="message-content">
+                <span class="message-icon">
+                    <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+                </span>
+                <span class="message-text">${message}</span>
+            </div>
+            <button class="message-close" onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        
+        // Add to messages container
+        const container = document.querySelector('.django-messages-container');
+        container.appendChild(toast);
+        
+        // Remove after 5 seconds
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 5000);
+    }
+
+    // Function to handle payslip preview
+    function previewPayslip(event) {
+        const input = event.target;
+        const pdfIcon = document.getElementById('pdfIcon');
+        const preview = document.getElementById('payslipPreview');
+        
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            
+            if (file.type === 'application/pdf') {
+                pdfIcon.style.display = 'block';
+                preview.style.display = 'none';
+            } else {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    pdfIcon.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+
+    // Password Validation
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const strengthIndicator = document.getElementById('passwordStrength');
+    const matchIndicator = document.getElementById('passwordMatch');
+
+    function checkPasswordStrength(password) {
+        const strength = {
+            0: 'Very Weak',
+            1: 'Weak',
+            2: 'Moderate',
+            3: 'Strong',
+            4: 'Very Strong'
+        };
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (password.match(/[A-Z]/)) score++;
+        if (password.match(/[0-9]/)) score++;
+        if (password.match(/[^A-Za-z0-9]/)) score++;
+        return strength[Math.min(score, 4)];
+    }
+
+    function validatePasswords() {
+        // Strength check
+        const strength = checkPasswordStrength(password.value);
+        strengthIndicator.textContent = `Strength: ${strength}`;
+        strengthIndicator.className = `password-feedback ${strength === 'Very Weak' ? 'invalid' : 'valid'}`;
+
+        // Match check
+        if (password.value && confirmPassword.value) {
+            if (password.value === confirmPassword.value) {
+                matchIndicator.textContent = "✓ Passwords match";
+                matchIndicator.className = "password-feedback valid";
+            } else {
+                matchIndicator.textContent = "✗ Passwords don't match";
+                matchIndicator.className = "password-feedback invalid";
+            }
+        }
+    }
+
+    password.addEventListener('input', validatePasswords);
+    confirmPassword.addEventListener('input', validatePasswords);
+
+    // Form submission handler
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        if (password.value !== confirmPassword.value) {
+            e.preventDefault();
+            showToast('Passwords do not match!', 'error');
+            return;
+        }
+        
+        // Add loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Registering... <i class="fas fa-spinner fa-spin"></i>';
+    });
+
+    // Auto-close messages after 5 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        const messages = document.querySelectorAll('.django-message');
+        messages.forEach(message => {
+            setTimeout(() => {
+                message.style.opacity = '0';
+                setTimeout(() => message.remove(), 300);
+            }, 5000);
+        });
+    });    
+    
+    </script>
+
+
+    
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application Success - LesothoPrime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+        --primary: #00ff87;
+        --secondary: #60efff;
+        --dark: #0f0c29;
+        --accent: #ff6b6b;
+        --space: #1a1a2e;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        padding-top: 6.5rem; /* Push all content below the fixed nav */
+        background: radial-gradient(circle at top right, var(--dark), #302b63, #24243e);
+        color: white;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    .main-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(15px);
+        z-index: 1000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 8%;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 15px rgba(96, 239, 255, 0.3));
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    .nav-link {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .auth-btn {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: var(--dark);
+        padding: 0.8rem 2rem;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+    }
+
+    .auth-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 255, 135, 0.4);
+    }
+
+    .hero-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        padding: 14rem 8% 6rem; /* increased from 10rem to 14rem */
+        padding-top: 6.5rem; /* enough to go below the fixed nav */
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-bottom: 6rem;
+
+    }
+
+    .hero-content {
+        text-align: center;
+        max-width: 800px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-title {
+        font-size: 4.5rem;
+        margin-bottom: 2rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.1;
+        animation: textReveal 1s ease forwards;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 3rem;
+        opacity: 0.9;
+        animation: slideUp 1s ease 0.3s forwards;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin-top: 3rem;
+    }
+
+    .cta-btn {
+        padding: 1.2rem 2.5rem;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .primary-cta {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: var(--dark);
+        box-shadow: 0 4px 15px rgba(0, 255, 135, 0.3);
+    }
+
+    .secondary-cta {
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        backdrop-filter: blur(10px);
+    }
+
+    .secondary-cta:hover {
+        background: var(--primary);
+        color: var(--dark);
+    }
+
+    .gradient-blob {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.1;
+        z-index: 1;
+        animation: float 20s infinite;
+    }
+
+    .blob-1 {
+        top: -20%;
+        left: -10%;
+        animation-delay: 0s;
+    }
+
+    .blob-2 {
+        bottom: -30%;
+        right: -15%;
+        animation-delay: 5s;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(100px, -50px) scale(1.1); }
+        50% { transform: translate(-50px, 50px) scale(0.9); }
+        75% { transform: translate(-100px, -100px) scale(1.05); }
+    }
+
+    .section {
+        padding: 8rem 8%;
+        position: relative;
+    }
+
+    .section-title {
+        font-size: 3rem;
+        margin-bottom: 3rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+    }
+
+    .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .about-text {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 3rem;
+        border-radius: 2rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mission-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .mission-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 3rem;
+        border-radius: 2rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease;
+        text-align: center;
+    }
+
+    .mission-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .mission-card i {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 3rem;
+        }
+        
+        .nav-links {
+            display: none;
+        }
+        
+        .gradient-blob {
+            display: none;
+        }
+
+        .about-content {
+            grid-template-columns: 1fr;
+        }
+    }    .dashboard-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .welcome-section {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .welcome-text {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .metric-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+        border-radius: 1.5rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .metric-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .metric-value {
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .quick-actions {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin-bottom: 4rem;
+    }
+
+    .loan-list {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 1.5rem;
+        padding: 2rem;
+    }
+
+    .loan-item {
+        padding: 1.5rem;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+    }
+
+        .success-container {
+            max-width: 800px;
+            margin: 5rem auto;
+            padding: 3rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .redirect-message {
+            font-size: 1rem;
+            color: var(--secondary);
+            margin-top: 2rem;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">CrediTech</div>
+            <div class="nav-links">
+                <a href="{% url 'home'%}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="{% url 'apply'%}" class="nav-link"><i class="fas fa-hand-holding-usd"></i> Apply Loan</a>
+                <a href="{% url 'loan_history'%}" class="nav-link"><i class="fas fa-history"></i> Loan History</a>
+                <a href="#settings" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+                <a href="{% url 'home'%}" class="auth-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="success-container">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h1 class="success-title">Application Submitted!</h1>
+        <p class="success-message">
+            Your loan application has been received successfully. A confirmation has been sent to your email.
+        </p>
+        <p class="redirect-message">
+            You will be redirected to the home page in <span id="countdown">5</span> seconds...
+        </p>
+    </div>
+
+    <script>
+        // Countdown and redirect
+        let seconds = 5;
+        const countdownElement = document.getElementById('countdown');
+        
+        const countdown = setInterval(() => {
+            seconds--;
+            countdownElement.textContent = seconds;
+            
+            if (seconds <= 0) {
+                clearInterval(countdown);
+                window.location.href = "{% url 'home' %}";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
