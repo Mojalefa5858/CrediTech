@@ -9,6 +9,17 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+# Only run once – creates an admin if none exists
+if not User.objects.filter(email="mojalefajefff@gmail.com").exists():
+    User.objects.create_superuser(
+        email="mojalefajefff@gmail.com",
+        password="oneonetwo"
+    )
+
 
 from pathlib import Path
 
