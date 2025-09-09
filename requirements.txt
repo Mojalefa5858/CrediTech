@@ -1,4 +1,4 @@
-Django==4.2.7
+Django==5.1
 gunicorn==21.2.0
 psycopg2-binary==2.9.9
 opencv-python==4.8.1.78
