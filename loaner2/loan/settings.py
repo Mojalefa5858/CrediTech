@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-c6$v)mhuw0e2_3k=^+7evxh*fwc6b(k&9r!5-5_kj^077uf3l8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "creditech.onrender.com",
+]
 
 
 # Application definition
